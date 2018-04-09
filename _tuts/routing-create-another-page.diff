@@ -1,0 +1,19 @@
+diff --git a/src/Controller/SongController.php b/src/Controller/SongController.php
+index 4b3acfd..03c0147 100644
+--- a/src/Controller/SongController.php
++++ b/src/Controller/SongController.php
+@@ -16,4 +16,14 @@ class SongController extends AbstractController
+             'I rode my truck, through some mud',
+         ]);
+     }
++
++    /**
++     * @Route("/another-song")
++     */
++    public function writeAnotherSong()
++    {
++        return $this->json([
++            'Back-road, boot-scooting, honkey-tonkin CMS',
++        ]);
++    }
+ }

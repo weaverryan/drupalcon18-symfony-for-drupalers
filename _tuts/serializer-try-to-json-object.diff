@@ -1,0 +1,16 @@
+diff --git a/src/Controller/SongController.php b/src/Controller/SongController.php
+index 900195f..d371edf 100644
+--- a/src/Controller/SongController.php
++++ b/src/Controller/SongController.php
+@@ -21,10 +21,7 @@ class SongController extends AbstractController
+         $em->persist($song);
+         $em->flush();
+ 
+-        return $this->json([
+-            'title' => $song->getTitle(),
+-            'id' => $song->getId(),
+-        ]);
++        return $this->json($song);
+     }
+ 
+     /**

@@ -1,0 +1,270 @@
+diff --git a/src/Controller/CountrySongController.php b/src/Controller/CountrySongController.php
+new file mode 100644
+index 0000000..c3496c8
+--- /dev/null
++++ b/src/Controller/CountrySongController.php
+@@ -0,0 +1,90 @@
++<?php
++
++namespace App\Controller;
++
++use App\Entity\CountrySong;
++use App\Form\CountrySongType;
++use App\Repository\CountrySongRepository;
++use Symfony\Bundle\FrameworkBundle\Controller\Controller;
++use Symfony\Component\HttpFoundation\Request;
++use Symfony\Component\HttpFoundation\Response;
++use Symfony\Component\Routing\Annotation\Route;
++
++/**
++ * @Route("/country/song")
++ */
++class CountrySongController extends Controller
++{
++    /**
++     * @Route("/", name="country_song_index", methods="GET")
++     */
++    public function index(CountrySongRepository $countrySongRepository): Response
++    {
++        return $this->render('country_song/index.html.twig', ['country_songs' => $countrySongRepository->findAll()]);
++    }
++
++    /**
++     * @Route("/new", name="country_song_new", methods="GET|POST")
++     */
++    public function new(Request $request): Response
++    {
++        $countrySong = new CountrySong();
++        $form = $this->createForm(CountrySongType::class, $countrySong);
++        $form->handleRequest($request);
++
++        if ($form->isSubmitted() && $form->isValid()) {
++            $em = $this->getDoctrine()->getManager();
++            $em->persist($countrySong);
++            $em->flush();
++
++            return $this->redirectToRoute('country_song_index');
++        }
++
++        return $this->render('country_song/new.html.twig', [
++            'country_song' => $countrySong,
++            'form' => $form->createView(),
++        ]);
++    }
++
++    /**
++     * @Route("/{id}", name="country_song_show", methods="GET")
++     */
++    public function show(CountrySong $countrySong): Response
++    {
++        return $this->render('country_song/show.html.twig', ['country_song' => $countrySong]);
++    }
++
++    /**
++     * @Route("/{id}/edit", name="country_song_edit", methods="GET|POST")
++     */
++    public function edit(Request $request, CountrySong $countrySong): Response
++    {
++        $form = $this->createForm(CountrySongType::class, $countrySong);
++        $form->handleRequest($request);
++
++        if ($form->isSubmitted() && $form->isValid()) {
++            $this->getDoctrine()->getManager()->flush();
++
++            return $this->redirectToRoute('country_song_edit', ['id' => $countrySong->getId()]);
++        }
++
++        return $this->render('country_song/edit.html.twig', [
++            'country_song' => $countrySong,
++            'form' => $form->createView(),
++        ]);
++    }
++
++    /**
++     * @Route("/{id}", name="country_song_delete", methods="DELETE")
++     */
++    public function delete(Request $request, CountrySong $countrySong): Response
++    {
++        if ($this->isCsrfTokenValid('delete'.$countrySong->getId(), $request->request->get('_token'))) {
++            $em = $this->getDoctrine()->getManager();
++            $em->remove($countrySong);
++            $em->flush();
++        }
++
++        return $this->redirectToRoute('country_song_index');
++    }
++}
+diff --git a/src/Form/CountrySongType.php b/src/Form/CountrySongType.php
+new file mode 100644
+index 0000000..3dc19ed
+--- /dev/null
++++ b/src/Form/CountrySongType.php
+@@ -0,0 +1,26 @@
++<?php
++
++namespace App\Form;
++
++use App\Entity\CountrySong;
++use Symfony\Component\Form\AbstractType;
++use Symfony\Component\Form\FormBuilderInterface;
++use Symfony\Component\OptionsResolver\OptionsResolver;
++
++class CountrySongType extends AbstractType
++{
++    public function buildForm(FormBuilderInterface $builder, array $options)
++    {
++        $builder
++            ->add('title')
++            ->add('createdAt')
++        ;
++    }
++
++    public function configureOptions(OptionsResolver $resolver)
++    {
++        $resolver->setDefaults([
++            'data_class' => CountrySong::class,
++        ]);
++    }
++}
+diff --git a/templates/country_song/_delete_form.html.twig b/templates/country_song/_delete_form.html.twig
+new file mode 100644
+index 0000000..86c8b12
+--- /dev/null
++++ b/templates/country_song/_delete_form.html.twig
+@@ -0,0 +1,5 @@
++<form method="post" action="{{ path('country_song_delete', {'id': country_song.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
++    <input type="hidden" name="_method" value="DELETE">
++    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ country_song.id) }}">
++    <button class="btn">Delete</button>
++</form>
+\ No newline at end of file
+diff --git a/templates/country_song/_form.html.twig b/templates/country_song/_form.html.twig
+new file mode 100644
+index 0000000..92948ad
+--- /dev/null
++++ b/templates/country_song/_form.html.twig
+@@ -0,0 +1,4 @@
++{{ form_start(form) }}
++    {{ form_widget(form) }}
++    <button class="btn">{{ button_label|default('Save') }}</button>
++{{ form_end(form) }}
+\ No newline at end of file
+diff --git a/templates/country_song/edit.html.twig b/templates/country_song/edit.html.twig
+new file mode 100644
+index 0000000..b3f3687
+--- /dev/null
++++ b/templates/country_song/edit.html.twig
+@@ -0,0 +1,13 @@
++{% extends 'base.html.twig' %}
++
++{% block title %}Edit CountrySong{% endblock %}
++
++{% block body %}
++    <h1>Edit CountrySong</h1>
++
++    {{ include('country_song/_form.html.twig', {'button_label': 'Update'}) }}
++
++    <a href="{{ path('country_song_index') }}">back to list</a>
++
++    {{ include('country_song/_delete_form.html.twig') }}
++{% endblock %}
+\ No newline at end of file
+diff --git a/templates/country_song/index.html.twig b/templates/country_song/index.html.twig
+new file mode 100644
+index 0000000..dfaebfb
+--- /dev/null
++++ b/templates/country_song/index.html.twig
+@@ -0,0 +1,37 @@
++{% extends 'base.html.twig' %}
++
++{% block title %}CountrySong index{% endblock %}
++
++{% block body %}
++    <h1>CountrySong index</h1>
++
++    <table class="table">
++        <thead>
++            <tr>
++                <th>Id</th>
++                <th>Title</th>
++                <th>CreatedAt</th>
++                <th>actions</th>
++            </tr>
++        </thead>
++        <tbody>
++        {% for country_song in country_songs %}
++            <tr>
++                <td>{{ country_song.id }}</td>
++                <td>{{ country_song.title }}</td>
++                <td>{{ country_song.createdAt ? country_song.createdAt|date('Y-m-d H:i:s') : '' }}</td>
++                <td>
++                    <a href="{{ path('country_song_show', {'id': country_song.id}) }}">show</a>
++                    <a href="{{ path('country_song_edit', {'id': country_song.id}) }}">edit</a>
++                </td>
++            </tr>
++        {% else %}
++            <tr>
++                <td colspan="4">no records found</td>
++            </tr>
++        {% endfor %}
++        </tbody>
++    </table>
++
++    <a href="{{ path('country_song_new') }}">Create new</a>
++{% endblock %}
+\ No newline at end of file
+diff --git a/templates/country_song/new.html.twig b/templates/country_song/new.html.twig
+new file mode 100644
+index 0000000..b72c775
+--- /dev/null
++++ b/templates/country_song/new.html.twig
+@@ -0,0 +1,11 @@
++{% extends 'base.html.twig' %}
++
++{% block title %}New CountrySong{% endblock %}
++
++{% block body %}
++    <h1>Create new CountrySong</h1>
++
++    {{ include('country_song/_form.html.twig') }}
++
++    <a href="{{ path('country_song_index') }}">back to list</a>
++{% endblock %}
+\ No newline at end of file
+diff --git a/templates/country_song/show.html.twig b/templates/country_song/show.html.twig
+new file mode 100644
+index 0000000..dbb385c
+--- /dev/null
++++ b/templates/country_song/show.html.twig
+@@ -0,0 +1,30 @@
++{% extends 'base.html.twig' %}
++
++{% block title %}CountrySong{% endblock %}
++
++{% block body %}
++    <h1>CountrySong</h1>
++
++    <table class="table">
++        <tbody>
++            <tr>
++                <th>Id</th>
++                <td>{{ country_song.id }}</td>
++            </tr>
++            <tr>
++                <th>Title</th>
++                <td>{{ country_song.title }}</td>
++            </tr>
++            <tr>
++                <th>CreatedAt</th>
++                <td>{{ country_song.createdAt ? country_song.createdAt|date('Y-m-d H:i:s') : '' }}</td>
++            </tr>
++        </tbody>
++    </table>
++
++    <a href="{{ path('country_song_index') }}">back to list</a>
++
++    <a href="{{ path('country_song_edit', {'id': country_song.id}) }}">edit</a>
++
++    {{ include('country_song/_delete_form.html.twig') }}
++{% endblock %}
+\ No newline at end of file

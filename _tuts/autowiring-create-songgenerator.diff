@@ -1,0 +1,68 @@
+diff --git a/src/Controller/SongController.php b/src/Controller/SongController.php
+index 0192d82..4cece13 100644
+--- a/src/Controller/SongController.php
++++ b/src/Controller/SongController.php
+@@ -2,6 +2,7 @@
+ 
+ namespace App\Controller;
+ 
++use App\Service\SongGenerator;
+ use Psr\Log\LoggerInterface;
+ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ use Symfony\Component\Routing\Annotation\Route;
+@@ -11,19 +12,19 @@ class SongController extends AbstractController
+     /**
+      * @Route("/api/songs")
+      */
+-    public function apiWriteSong()
++    public function apiWriteSong(SongGenerator $songGenerator)
+     {
+         return $this->json([
+-            'I rode my truck, through some mud',
++            $songGenerator->generateSong('truck'),
+         ]);
+     }
+ 
+     /**
+      * @Route("/another-song")
+      */
+-    public function writeAnotherSong(LoggerInterface $logger)
++    public function writeAnotherSong(LoggerInterface $logger, SongGenerator $songGenerator)
+     {
+-        $song = 'Back-road, boot-scooting, honkey-tonkin CMS';
++        $song = $songGenerator->generateSong('CMS');
+         $logger->info('Time to sing!', [
+             'song' => $song,
+         ]);
+diff --git a/src/Service/SongGenerator.php b/src/Service/SongGenerator.php
+new file mode 100644
+index 0000000..1b86ffa
+--- /dev/null
++++ b/src/Service/SongGenerator.php
+@@ -0,0 +1,26 @@
++<?php
++
++namespace App\Service;
++
++class SongGenerator
++{
++    public function generateSong($noun)
++    {
++        $verbs = ['drive', 'drink', 'dance'];
++        $adjectives = ['Honky Tonk', 'country', 'back-road', 'boot-scootin'];
++        $templates = [
++            'I %verb% my %adjective% %noun%',
++            '%adjective% %noun%, let\'s %verb%!',
++            '%verb%ing my %adjective% %noun%'
++        ];
++
++        $title = strtr($templates[array_rand($templates)], [
++            '%noun%' => $noun,
++            '%adjective%' => $adjectives[array_rand($adjectives)],
++            '%verb%' => $verbs[array_rand($verbs)]
++        ]);
++        $title = ucwords($title);
++
++        return $title;
++    }
++}

@@ -1,0 +1,110 @@
+{
+    "steps": [
+        {
+            "id": "start",
+            "name": "start",
+            "description": null
+        },
+        {
+            "id": "routing-first-route-controller",
+            "name": "Routing: First Route + Controller",
+            "description": null
+        },
+        {
+            "id": "routing-install-annotations",
+            "name": "Routing: Install annotations",
+            "description": null
+        },
+        {
+            "id": "routing-use-annotation-routes",
+            "name": "Routing: Use annotation routes",
+            "description": null
+        },
+        {
+            "id": "routing-create-another-page",
+            "name": "Routing: Create another page",
+            "description": null
+        },
+        {
+            "id": "twig-install-twig",
+            "name": "Twig: Install Twig",
+            "description": null
+        },
+        {
+            "id": "twig-render-a-template",
+            "name": "Twig: Render a template",
+            "description": null
+        },
+        {
+            "id": "debug-install-debug",
+            "name": "Debug: install debug",
+            "description": null
+        },
+        {
+            "id": "autowiring-show-loggerinterface",
+            "name": "Autowiring: Show LoggerInterface",
+            "description": null
+        },
+        {
+            "id": "autowiring-create-songgenerator",
+            "name": "Autowiring: Create SongGenerator",
+            "description": null
+        },
+        {
+            "id": "doctrine-install-doctrine",
+            "name": "Doctrine: Install Doctrine",
+            "description": null
+        },
+        {
+            "id": "doctrine-install-maker",
+            "name": "Doctrine: Install Maker",
+            "description": null
+        },
+        {
+            "id": "doctrine-generate-entity",
+            "name": "Doctrine: Generate entity",
+            "description": null
+        },
+        {
+            "id": "doctrine-setup-createdat",
+            "name": "Doctrine: Setup createdAt",
+            "description": null
+        },
+        {
+            "id": "doctrine-generate-migration",
+            "name": "Doctrine: Generate Migration",
+            "description": null
+        },
+        {
+            "id": "doctrine-api-endpoint-to-create-song",
+            "name": "Doctrine: API endpoint to create song",
+            "description": null
+        },
+        {
+            "id": "serializer-try-to-json-object",
+            "name": "Serializer: Try to json object",
+            "description": null
+        },
+        {
+            "id": "serializer-install-serializer",
+            "name": "Serializer: install serializer",
+            "description": null
+        },
+        {
+            "id": "serializer-create-get-endpoint",
+            "name": "Serializer: Create GET endpoint",
+            "description": null
+        },
+        {
+            "id": "crud-install-requirements",
+            "name": "CRUD: Install requirements",
+            "description": null
+        },
+        {
+            "id": "crud-make-crud",
+            "name": "CRUD: make:crud",
+            "description": null
+        }
+    ],
+    "sha": "339a5c53bb3b939995e9955ce5046120d6ac5611"
+}

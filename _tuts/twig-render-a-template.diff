@@ -1,0 +1,28 @@
+diff --git a/src/Controller/SongController.php b/src/Controller/SongController.php
+index 03c0147..f278499 100644
+--- a/src/Controller/SongController.php
++++ b/src/Controller/SongController.php
+@@ -22,8 +22,10 @@ class SongController extends AbstractController
+      */
+     public function writeAnotherSong()
+     {
+-        return $this->json([
+-            'Back-road, boot-scooting, honkey-tonkin CMS',
++        $song = 'Back-road, boot-scooting, honkey-tonkin CMS';
++
++        return $this->render('song/anotherSong.html.twig', [
++            'song' => $song,
+         ]);
+     }
+ }
+diff --git a/templates/song/anotherSong.html.twig b/templates/song/anotherSong.html.twig
+new file mode 100644
+index 0000000..ccfe684
+--- /dev/null
++++ b/templates/song/anotherSong.html.twig
+@@ -0,0 +1,5 @@
++{% extends 'base.html.twig' %}
++
++{% block body %}
++    <h1>{{ song }}</h1>
++{% endblock %}

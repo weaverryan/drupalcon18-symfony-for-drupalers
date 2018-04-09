@@ -1,0 +1,19 @@
+diff --git a/src/Controller/SongController.php b/src/Controller/SongController.php
+index f73d13a..28f1da7 100644
+--- a/src/Controller/SongController.php
++++ b/src/Controller/SongController.php
+@@ -24,6 +24,14 @@ class SongController extends AbstractController
+         return $this->json($song);
+     }
+ 
++    /**
++     * @Route("/api/songs/{id}", methods={"GET"})
++     */
++    public function apiGetSong(CountrySong $song)
++    {
++        return $this->json($song);
++    }
++
+     /**
+      * @Route("/another-song")
+      */
