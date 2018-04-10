@@ -16,4 +16,14 @@ class SongController extends AbstractController
             'I rode my truck, through some mud',
         ]);
     }
+
+    /**
+     * @Route("/another-song")
+     */
+    public function writeAnotherSong()
+    {
+        return $this->json([
+            'Back-road, boot-scooting, honkey-tonkin CMS',
+        ]);
+    }
 }
