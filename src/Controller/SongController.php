@@ -25,6 +25,14 @@ class SongController extends AbstractController
     }
 
     /**
+     * @Route("/api/songs/{id}", methods={"GET"})
+     */
+    public function apiGetSong(CountrySong $song)
+    {
+        return $this->json($song);
+    }
+
+    /**
      * @Route("/another-song")
      */
     public function writeAnotherSong(LoggerInterface $logger, SongGenerator $songGenerator)
