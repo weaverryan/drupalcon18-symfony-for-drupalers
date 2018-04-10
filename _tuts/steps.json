@@ -104,7 +104,22 @@
             "id": "crud-make-crud",
             "name": "CRUD: make:crud",
             "description": null
+        },
+        {
+            "id": "api-install-api-platform",
+            "name": "API: Install API Platform",
+            "description": null
+        },
+        {
+            "id": "api-adding-annotation",
+            "name": "API: Adding annotation",
+            "description": null
+        },
+        {
+            "id": "admin-install-admin",
+            "name": "Admin: Install admin",
+            "description": null
         }
     ],
-    "sha": "339a5c53bb3b939995e9955ce5046120d6ac5611"
+    "sha": "a5783c59ea1801c2e7d5d3a0debc04b45ed83f80"
 }
