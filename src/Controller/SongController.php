@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\SongGenerator;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,19 +12,19 @@ class SongController extends AbstractController
     /**
      * @Route("/api/songs")
      */
-    public function apiWriteSong()
+    public function apiWriteSong(SongGenerator $songGenerator)
     {
         return $this->json([
-            'I rode my truck, through some mud',
+            $songGenerator->generateSong('truck'),
         ]);
     }
 
     /**
      * @Route("/another-song")
      */
-    public function writeAnotherSong(LoggerInterface $logger)
+    public function writeAnotherSong(LoggerInterface $logger, SongGenerator $songGenerator)
     {
-        $song = 'Back-road, boot-scooting, honkey-tonkin CMS';
+        $song = $songGenerator->generateSong('CMS');
         $logger->info('Time to sing!', [
             'song' => $song,
         ]);
