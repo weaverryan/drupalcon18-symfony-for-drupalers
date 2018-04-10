@@ -21,10 +21,7 @@ class SongController extends AbstractController
         $em->persist($song);
         $em->flush();
 
-        return $this->json([
-            'title' => $song->getTitle(),
-            'id' => $song->getId(),
-        ]);
+        return $this->json($song);
     }
 
     /**
