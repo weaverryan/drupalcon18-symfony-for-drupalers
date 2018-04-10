@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CountrySong{% endblock %}
+
+{% block body %}
+    <h1>CountrySong</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ country_song.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ country_song.title }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ country_song.createdAt ? country_song.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('country_song_index') }}">back to list</a>
+
+    <a href="{{ path('country_song_edit', {'id': country_song.id}) }}">edit</a>
+
+    {{ include('country_song/_delete_form.html.twig') }}
+{% endblock %}
