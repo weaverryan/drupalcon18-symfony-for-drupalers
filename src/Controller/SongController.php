@@ -22,8 +22,10 @@ class SongController extends AbstractController
      */
     public function writeAnotherSong()
     {
-        return $this->json([
-            'Back-road, boot-scooting, honkey-tonkin CMS',
+        $song = 'Back-road, boot-scooting, honkey-tonkin CMS';
+
+        return $this->render('song/anotherSong.html.twig', [
+            'song' => $song,
         ]);
     }
 }
